@@ -1,10 +1,14 @@
 function buildMetadata(sample) {
 
+    console.log(sample);
   // @TODO: Complete the following function that builds the metadata panel
 
   // Use `d3.json` to fetch the metadata for a sample
     // Use d3 to select the panel with id of `#sample-metadata`
 
+    d3.json(`/samples/${sample}`).then(function(data) {
+      console.log(data)
+    });
     // Use `.html("") to clear any existing metadata
 
     // Use `Object.entries` to add each key and value pair to the panel
@@ -32,6 +36,7 @@ function init() {
 
   // Use the list of sample names to populate the select options
   d3.json("/names").then((sampleNames) => {
+//    console.log(sampleNames)
     sampleNames.forEach((sample) => {
       selector
         .append("option")
@@ -48,6 +53,7 @@ function init() {
 
 function optionChanged(newSample) {
   // Fetch new data each time a new sample is selected
+  console.log(newSample);
   buildCharts(newSample);
   buildMetadata(newSample);
 }
