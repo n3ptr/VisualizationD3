@@ -12,10 +12,15 @@ function buildMetadata(sample) {
         var divMeta = d3.select("#sample-metadata");
         divMeta.html('');
 
+        Plotly.purge("bubble");
+
         Object.entries(data).forEach(([key, value]) => {
             console.log(`${key}`,`${value}`);
             divMeta.append("h6").text(`${key}: ${value}`);
         });
+
+        buildGauge(data.WFREQ);
+
     });
 
     // Use `.html("") to clear any existing metadata
@@ -53,7 +58,7 @@ function buildCharts(sample) {
        text: otuLabels,
        mode: "markers",
            marker: {
-            size: (sampleVal * 50),
+            size: (sampleVal),
             color: otuIds,
             colorscale: "Earth"
            }
@@ -63,7 +68,7 @@ function buildCharts(sample) {
     Plotly.plot("bubble", bubbleData, bubble);
 
     });
-  };
+  }
   // @TODO: Use `d3.json` to fetch the sample data for the plots
 
     // @TODO: Build a Bubble Chart using the sample data
@@ -71,6 +76,13 @@ function buildCharts(sample) {
     // @TODO: Build a Pie Chart
     // HINT: You will need to use slice() to grab the top 10 sample_values,
     // otu_ids, and labels (10 each).
+
+
+function buildGauge(wfreq){
+
+    console.log(wfreq);
+
+}
 
 function init() {
   // Grab a reference to the dropdown select element
