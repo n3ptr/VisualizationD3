@@ -5,16 +5,19 @@ function buildMetadata(sample) {
 
   // Use `d3.json` to fetch the metadata for a sample
     // Use d3 to select the panel with id of `#sample-metadata`
-    var divMeta = d3.select("#sample-metadata");
-    d3.json(`/samples/${sample}`).then(function(data) {
-      console.log(data);
-      divMeta.html("");
-      
-      Object.entries(data).forEach(([key, value]) => {
+    d3.json(`/metadata/${sample}`).then(function(data) {
 
+        console.log(data);
+
+        var divMeta = d3.select("#sample-metadata");
+        divMeta.html('');
+
+        Object.entries(data).forEach(([key, value]) => {
+            console.log(`${key}`,`${value}`);
+            divMeta.append("h6").text(`${key}: ${value}`);
+        });
     });
 
-    });
     // Use `.html("") to clear any existing metadata
 
     // Use `Object.entries` to add each key and value pair to the panel
