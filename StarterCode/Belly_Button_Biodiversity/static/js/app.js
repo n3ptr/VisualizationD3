@@ -13,24 +13,15 @@ function buildMetadata(sample) {
         divMeta.html('');
 
         Plotly.purge("bubble");
+        Plotly.purge("pie");
 
         Object.entries(data).forEach(([key, value]) => {
             console.log(`${key}`,`${value}`);
             divMeta.append("h6").text(`${key}: ${value}`);
         });
-
+        // call the gauge function
         buildGauge(data.WFREQ);
-
     });
-
-    // Use `.html("") to clear any existing metadata
-
-    // Use `Object.entries` to add each key and value pair to the panel
-    // Hint: Inside the loop, you will need to use d3 to append new
-    // tags for each key-value in the metadata.
-
-    // BONUS: Build the Gauge Chart
-    // buildGauge(data.WFREQ);
 }
 
 function buildCharts(sample) {
@@ -42,6 +33,7 @@ function buildCharts(sample) {
     let otuIds = data.otu_ids;
     let otuLabels = data.otu_labels;
     let sampleVal = data.sample_values;
+
 
     // build plot layout
     var bubble = {
@@ -60,28 +52,39 @@ function buildCharts(sample) {
            marker: {
             size: (sampleVal),
             color: otuIds,
-            colorscale: "Earth"
+            colorscale: "Hot"
            }
        }];
 
     // show the plot
     Plotly.plot("bubble", bubbleData, bubble);
 
+    // pie chart
+    // pie data & labels
+    var data = [{
+        values: sampleVal.slice(0,10),
+        labels: otuIds.slice(0,10),
+        hovertext: otuLabels.slice(0,10),
+        hoverinfo: 'hovertext',
+        type: 'pie',
+        color: otuIds,
+        colorscale: "Hot"
+    }];
+
+    // pie chart formatting
+    var layout = {
+//        height: 500,
+//        width: 900,
+        margin: { t: 0, l: 0  }
+    };
+
+    Plotly.newPlot('pie', data, layout);
+
     });
   }
-  // @TODO: Use `d3.json` to fetch the sample data for the plots
-
-    // @TODO: Build a Bubble Chart using the sample data
-
-    // @TODO: Build a Pie Chart
-    // HINT: You will need to use slice() to grab the top 10 sample_values,
-    // otu_ids, and labels (10 each).
-
 
 function buildGauge(wfreq){
-
     console.log(wfreq);
-
 }
 
 function init() {
